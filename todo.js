@@ -4,7 +4,7 @@ const filePath = "./task.json";
 const command = process.argv[2];
 const argument = process.argv[3];
 
-let taskArr = []; 
+
 
 //In oreder to add task you need to first load the task and loading will happen from json file.
 
