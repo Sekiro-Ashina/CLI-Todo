@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { buffer } = require("stream/consumers");
 const filePath = "./task.json";
 
 const command = process.argv[2];
@@ -11,7 +12,7 @@ const argument = process.argv[3];
   const loadTask = () =>{
     try{     // Since we are reading files the error might occur.
         const buffer = fs.readFileSync(filePath); //you can read file async but there is nothing name exactly as readFileAsync its only readFile means this and async method, but here we are deliberately going with sync cause we dont want to move if we cant read the file. 
-        const dataJson = buffer.toString();
+        const dataJson = buffer.toString(); //the data json is the actual data of argument
         return JSON.parse(dataJson);
     }
     catch(error){
@@ -21,11 +22,22 @@ const argument = process.argv[3];
 
   
 
-function addTask(){
-    const task = loadTask();
-    taskArr.push({task}); // this just pushed the task into the array now you need to save it to.
-    saveTask(taskArr);
+const addTask = (task) => {
+    const tasks = loadTask();
+    tasks.push({task}); // this just pushed the task into the array now you need to save it to.
+    saveTask(tasks);
+}
 
+const saveTask = (task) => {
+    const dataJson = JSON.stringify(task); //why again converting to JSON?
+    fs.writeFileSync(filePath,dataJson);
+}
+
+const listTask = () =>{
+   const list = loadTask();
+   list.forEach( (element, index) => {
+    console.log(`${index + 1} - ${element.task}`);
+   });
 }
 
 
@@ -33,7 +45,7 @@ if(command === "add"){
     addTask(argument);
 } else if(command === "list"){
     listTask();
-} else if(command = "remove"){
+} else if(command === "remove"){
     removeTask(parseInt(argument));
 } else{
     console.log("Command not found!");
