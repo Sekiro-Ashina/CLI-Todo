@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { buffer } = require("stream/consumers");
 const filePath = "./task.json";
 
 const command = process.argv[2];
@@ -38,6 +37,12 @@ const listTask = () =>{
    list.forEach( (element, index) => {
     console.log(`${index + 1} - ${element.task}`);
    });
+}
+
+const removeTask = (taskNumber) =>{
+    const task = loadTask(); // you have to load task for removing too? what will happen to the argument that has been passed by the removeTask() in if else.
+    const save = task.filter((element,index) => index != taskNumber - 1); 
+    saveTask(save);
 }
 
 
