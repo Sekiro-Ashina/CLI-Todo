@@ -11,7 +11,7 @@ const argument = process.argv[3];
   const loadTask = () =>{
     try{     // Since we are reading files the error might occur.
         const buffer = fs.readFileSync(filePath); //you can read file async but there is nothing name exactly as readFileAsync its only readFile means this and async method, but here we are deliberately going with sync cause we dont want to move if we cant read the file. 
-        const dataJson = buffer.toString(); //the data json is the actual data of argument
+        const dataJson = buffer.toString();
         return JSON.parse(dataJson);
     }
     catch(error){
@@ -21,14 +21,14 @@ const argument = process.argv[3];
 
   
 
-const addTask = (task) => {
+const addTask = (task) => { 
     const tasks = loadTask();
-    tasks.push({task}); // this just pushed the task into the array now you need to save it to.
+    tasks.push({task}); 
     saveTask(tasks);
 }
 
 const saveTask = (task) => {
-    const dataJson = JSON.stringify(task); //why again converting to JSON?
+    const dataJson = JSON.stringify(task);
     fs.writeFileSync(filePath,dataJson);
 }
 
@@ -40,8 +40,8 @@ const listTask = () =>{
 }
 
 const removeTask = (taskNumber) =>{
-    const task = loadTask(); // you have to load task for removing too? what will happen to the argument that has been passed by the removeTask() in if else.
-    const save = task.filter((element,index) => index != taskNumber - 1); 
+    const task = loadTask(); 
+    const save = task.filter((element,index) => index != taskNumber - 1);
     saveTask(save);
 }
 
